@@ -18,4 +18,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GoodHamburguer.Application\GoodHamburguer.Application.csproj" />
+    <ProjectReference Include="..\GoodHamburguer.Domain\GoodHamburguer.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
