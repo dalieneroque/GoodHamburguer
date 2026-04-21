@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ── Banco de dados ────────────────────────────────────────────────────────────
 builder.Services.AddDbContext<AppDbContext>(opcoes =>
-    opcoes.UseSqlServer(builder.Configuration.GetConnectionString("Padrao")));
+    opcoes.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ── Injeção de dependência ────────────────────────────────────────────────────
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
