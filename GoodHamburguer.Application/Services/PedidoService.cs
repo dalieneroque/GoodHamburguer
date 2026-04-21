@@ -54,10 +54,10 @@ public class PedidoService
             subtotal += pedido.Sanduiche.Value.ObterPreco();
 
         if (pedido.Acompanhamento.HasValue)
-            subtotal += 2.00m;
+            subtotal += pedido.Acompanhamento.Value.ObterPreco();
 
         if (pedido.Bebida.HasValue)
-            subtotal += 2.50m;
+            subtotal += pedido.Bebida.Value.ObterPreco();
 
         var desconto = CalcularDesconto(pedido, subtotal);
         var total = subtotal - desconto;
