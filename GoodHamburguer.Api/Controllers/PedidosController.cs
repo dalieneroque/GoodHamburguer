@@ -41,31 +41,46 @@ public class PedidosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] CriarPedidoRequest request)
     {
-        var pedido = await _service.CriarAsync(
-            request.Sanduiche,
-            request.Acompanhamento,
-            request.Bebida
-        );
+        try
+        {
+            var pedido = await _service.CriarAsync(
+                request.Sanduiche,
+                request.Acompanhamento,
+                request.Bebida
+            );
 
-        return CreatedAtAction(
-            nameof(ObterPorId),
-            new { id = pedido.Id },
-            ParaResponse(pedido)
-        );
+            return CreatedAtAction(
+                nameof(ObterPorId),
+                new { id = pedido.Id },
+                ParaResponse(pedido)
+            );
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { mensagem = ex.Message });
+        }
     }
+
 
     // PUT /api/pedidos/{id}
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Atualizar(Guid id, [FromBody] CriarPedidoRequest request)
     {
-        await _service.AtualizarAsync(
-            id,
-            request.Sanduiche,
-            request.Acompanhamento,
-            request.Bebida
-        );
+        try
+        {
+            await _service.AtualizarAsync(
+                id,
+                request.Sanduiche,
+                request.Acompanhamento,
+                request.Bebida
+            );
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { mensagem = ex.Message });
+        }
     }
 
     // DELETE /api/pedidos/{id}
