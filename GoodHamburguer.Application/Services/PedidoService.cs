@@ -17,6 +17,7 @@ public class PedidoService
     public async Task<Pedido> CriarAsync(Sanduiche? sanduiche, Acompanhamento? acompanhamento, Bebida? bebida)
     {
         var pedido = new Pedido(sanduiche, acompanhamento, bebida);
+        Validar(pedido);
         Calcular(pedido);
         await _repositorio.AdicionarAsync(pedido);
         return pedido;
@@ -34,6 +35,7 @@ public class PedidoService
             ?? throw new KeyNotFoundException($"Pedido {id} não encontrado.");
 
         pedido.AtualizarItens(sanduiche, acompanhamento, bebida);
+        Validar(pedido);
         Calcular(pedido);
         await _repositorio.AtualizarAsync(pedido);
     }
@@ -76,5 +78,11 @@ public class PedidoService
         if (temSanduiche && temBatata) return subtotal * 0.10m;
 
         return 0;
+    }
+
+    private static void Validar(Pedido pedido)
+    {
+        if (!pedido.Sanduiche.HasValue)
+            throw new Exception("O pedido deve conter um sanduíche.");
     }
 }
