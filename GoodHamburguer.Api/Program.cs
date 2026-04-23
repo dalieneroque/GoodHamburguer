@@ -4,6 +4,8 @@ using GoodHamburguer.Domain.Interfaces;
 using GoodHamburguer.Infrastructure.Data;
 using GoodHamburguer.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,13 @@ builder.Services.AddScoped<PedidoService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// ── Configuração para serializar enums como strings ─────────────────────────
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 var app = builder.Build();
 
