@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GoodHamburguer.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InicialCriacao : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,13 @@ namespace GoodHamburguer.Infrastructure.Migrations
                 name: "Pedidos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Sanduiche = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Acompanhamento = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bebida = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Desconto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Sanduiche = table.Column<string>(type: "text", nullable: true),
+                    Acompanhamento = table.Column<string>(type: "text", nullable: true),
+                    Bebida = table.Column<string>(type: "text", nullable: true),
+                    Subtotal = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Desconto = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "numeric(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

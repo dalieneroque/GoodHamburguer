@@ -16,13 +16,13 @@ public class AppDbContext : DbContext
             entidade.HasKey(p => p.Id);
 
             entidade.Property(p => p.Subtotal)
-                   .HasColumnType("decimal(18,2)"); 
+                   .HasColumnType("numeric(18,2)"); 
 
             entidade.Property(p => p.Desconto)
-                    .HasColumnType("decimal(18,2)");
+                    .HasColumnType("numeric(18,2)");
 
             entidade.Property(p => p.Total)
-                    .HasColumnType("decimal(18,2)");
+                    .HasColumnType("numeric(18,2)");
 
             entidade.Property(p => p.Sanduiche)
                     .HasConversion<string>();
