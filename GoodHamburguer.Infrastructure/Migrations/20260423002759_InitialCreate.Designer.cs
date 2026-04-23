@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoodHamburguer.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260422232610_InitialCreate")]
+    [Migration("20260423002759_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
