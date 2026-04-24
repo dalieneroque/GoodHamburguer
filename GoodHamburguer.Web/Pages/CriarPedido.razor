@@ -1,0 +1,81 @@
+﻿@page "/criar-pedido"
+@using GoodHamburguer.Web.Models
+@using GoodHamburguer.Web.Services
+@inject IPedidoService PedidoService
+
+<h3>🧾 Novo Pedido</h3>
+
+@if (pedidoCriado is not null)
+{
+    <div class="alert alert-success">
+        <h5>Pedido criado com sucesso!</h5>
+        <p><strong>Subtotal:</strong> R$ @pedidoCriado.Subtotal.ToString("F2")</p>
+        <p><strong>Desconto:</strong> R$ @pedidoCriado.Desconto.ToString("F2")</p>
+        <p><strong>Total:</strong> R$ @pedidoCriado.Total.ToString("F2")</p>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(erro))
+{
+    <div class="alert alert-danger">@erro</div>
+}
+
+<EditForm Model="model" OnValidSubmit="Enviar">
+    <div class="mb-3">
+        <label class="form-label">Sanduíche</label>
+        <InputSelect class="form-select" @bind-Value="model.Sanduiche">
+            <option value="">-- Nenhum --</option>
+            <option value="XBurger">X Burger — R$ 5,00</option>
+            <option value="XEgg">X Egg — R$ 4,50</option>
+            <option value="XBacon">X Bacon — R$ 7,00</option>
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Acompanhamento</label>
+        <InputSelect class="form-select" @bind-Value="model.Acompanhamento">
+            <option value="">-- Nenhum --</option>
+            <option value="BatataFrita">Batata Frita — R$ 2,00</option>
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Bebida</label>
+        <InputSelect class="form-select" @bind-Value="model.Bebida">
+            <option value="">-- Nenhum --</option>
+            <option value="Refrigerante">Refrigerante — R$ 2,50</option>
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@enviando">
+        @(enviando ? "Enviando..." : "Criar Pedido")
+    </button>
+</EditForm>
+
+@code {
+    private CriarPedidoModel model = new();
+    private PedidoRespostaModel? pedidoCriado;
+    private string? erro;
+    private bool enviando;
+
+    private async Task Enviar()
+    {
+        erro = null;
+        pedidoCriado = null;
+        enviando = true;
+
+        try
+        {
+            pedidoCriado = await PedidoService.CriarPedidoAsync(model);
+            model = new();
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao criar pedido: {ex.Message}";
+        }
+        finally
+        {
+            enviando = false;
+        }
+    }
+}
