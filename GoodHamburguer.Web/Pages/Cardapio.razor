@@ -1,0 +1,48 @@
+﻿@page "/cardapio"
+@using GoodHamburguer.Web.Models
+@using GoodHamburguer.Web.Services
+@inject ICardapioService CardapioService
+
+<h3>🍔 Cardápio</h3>
+
+@if (carregando)
+{
+    <p>Carregando...</p>
+}
+else if (itens.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in itens)
+            {
+                <tr>
+                    <td>@item.Nome</td>
+                    <td>@item.Categoria</td>
+                    <td>R$ @item.Preco.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nenhum item encontrado.</p>
+}
+
+@code {
+    private List<ItemCardapioModel> itens = new();
+    private bool carregando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        itens = await CardapioService.ObterCardapioAsync();
+        carregando = false;
+    }
+}
