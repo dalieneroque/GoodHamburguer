@@ -10,7 +10,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // ── HttpClient apontando para a API ──────────────────────────────────────────
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri(builder.Configuration["ApiConfig:BaseUrl"]!)
+    BaseAddress = new Uri("http://localhost:5144")
 });
 
 // ── Injeção de dependência ───────────────────────────────────────────────────
