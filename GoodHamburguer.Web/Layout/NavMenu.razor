@@ -1,10 +1,44 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">GoodHamburguer.Web</a>
+        <a class="navbar-brand" href="">🍔 GoodHamburguer</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
 
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Início
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="cardapio">
+                <span class="bi bi-list-ul" aria-hidden="true"></span> Cardápio
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="criar-pedido">
+                <span class="bi bi-plus-circle" aria-hidden="true"></span> Novo Pedido
+            </NavLink>
+        </div>
+
+    </nav>
+</div>
+
+@code {
+    private bool colapsado = true;
+
+    private string NavMenuCssClass =>
+        colapsado ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        colapsado = !colapsado;
+    }
+}
