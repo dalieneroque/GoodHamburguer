@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburguer.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburguer.Tests", "GoodHamburguer.Tests\GoodHamburguer.Tests.csproj", "{5F3AA4A4-ABBF-48BB-9882-7932E3729476}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburguer.Web", "GoodHamburguer.Web\GoodHamburguer.Web.csproj", "{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{5F3AA4A4-ABBF-48BB-9882-7932E3729476}.Release|x64.Build.0 = Release|Any CPU
 		{5F3AA4A4-ABBF-48BB-9882-7932E3729476}.Release|x86.ActiveCfg = Release|Any CPU
 		{5F3AA4A4-ABBF-48BB-9882-7932E3729476}.Release|x86.Build.0 = Release|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Debug|x64.Build.0 = Debug|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Debug|x86.Build.0 = Debug|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Release|x64.ActiveCfg = Release|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Release|x64.Build.0 = Release|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{94FD7A3F-3FE7-4C29-9CB7-61E6699F62AF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
