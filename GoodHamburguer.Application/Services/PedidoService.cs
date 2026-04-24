@@ -83,6 +83,19 @@ public class PedidoService
     private static void Validar(Pedido pedido)
     {
         if (!pedido.Sanduiche.HasValue)
-            throw new Exception("O pedido deve conter um sanduíche.");
+            throw new ArgumentException("O pedido deve conter um sanduíche.");
+
+        if (pedido.Sanduiche.HasValue &&
+        !Enum.IsDefined(typeof(Sanduiche), pedido.Sanduiche.Value))
+            throw new ArgumentException("Sanduíche inválido.");
+
+        if (pedido.Acompanhamento.HasValue &&
+            !Enum.IsDefined(typeof(Acompanhamento), pedido.Acompanhamento.Value))
+            throw new ArgumentException("Acompanhamento inválido.");
+
+        if (pedido.Bebida.HasValue &&
+            !Enum.IsDefined(typeof(Bebida), pedido.Bebida.Value))
+            throw new ArgumentException("Bebida inválida.");
+
     }
 }
