@@ -1,5 +1,4 @@
-﻿using GoodHamburguer.Api.Middlewares;
-using GoodHamburguer.Application.Services;
+﻿using GoodHamburguer.Application.Services;
 using GoodHamburguer.Domain.Interfaces;
 using GoodHamburguer.Infrastructure.Data;
 using GoodHamburguer.Infrastructure.Repositories;
@@ -35,9 +34,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ── Middleware ────────────────────────────────────────────────────────────────
-app.UseMiddleware<TratadorDeExcecaoMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -45,5 +41,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

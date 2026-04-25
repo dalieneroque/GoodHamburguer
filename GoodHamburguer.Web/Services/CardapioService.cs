@@ -1,21 +1,20 @@
-﻿using GoodHamburguer.Web.Models;
+﻿namespace GoodHamburguer.Web.Services;
+
 using System.Net.Http.Json;
+using GoodHamburguer.Web.Models;
 
-namespace GoodHamburguer.Web.Services
+public class CardapioService : ICardapioService
 {
-    public class CardapioService : ICardapioService
+    private readonly HttpClient _http;
+
+    public CardapioService(HttpClient http)
     {
-        private readonly HttpClient _http;
+        _http = http;
+    }
 
-        public CardapioService(HttpClient http)
-        {
-            _http = http;
-        }
-
-        public async Task<List<ItemCardapioModel>> ObterCardapioAsync()
-        {
-            return await _http.GetFromJsonAsync<List<ItemCardapioModel>>("api/cardapio")
-                   ?? new List<ItemCardapioModel>();
-        }
+    public async Task<CardapioModel> ObterCardapioAsync()
+    {
+        return await _http.GetFromJsonAsync<CardapioModel>("api/cardapio")
+               ?? new CardapioModel();
     }
 }

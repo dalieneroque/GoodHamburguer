@@ -25,11 +25,10 @@ else if (erro is not null)
 }
 else
 {
-    <!-- Sanduíches -->
     <div class="categoria-secao">
         <h4 class="categoria-titulo">🥪 Sanduíches</h4>
         <div class="cards-grid">
-            @foreach (var item in itens.Where(i => i.Categoria == "Sandwich"))
+            @foreach (var item in cardapio.Sanduiches)
             {
                 <div class="card-produto">
                     <div class="card-icone">🍔</div>
@@ -42,11 +41,10 @@ else
         </div>
     </div>
 
-    <!-- Acompanhamentos -->
     <div class="categoria-secao">
         <h4 class="categoria-titulo">🍟 Acompanhamentos</h4>
         <div class="cards-grid">
-            @foreach (var item in itens.Where(i => i.Categoria == "Side"))
+            @foreach (var item in cardapio.Acompanhamentos)
             {
                 <div class="card-produto">
                     <div class="card-icone">🍟</div>
@@ -59,11 +57,10 @@ else
         </div>
     </div>
 
-    <!-- Bebidas -->
     <div class="categoria-secao">
         <h4 class="categoria-titulo">🥤 Bebidas</h4>
         <div class="cards-grid">
-            @foreach (var item in itens.Where(i => i.Categoria == "Drink"))
+            @foreach (var item in cardapio.Bebidas)
             {
                 <div class="card-produto">
                     <div class="card-icone">🥤</div>
@@ -76,13 +73,29 @@ else
         </div>
     </div>
 
+    <div class="categoria-secao">
+        <h4 class="categoria-titulo">🏷️ Descontos</h4>
+        <div class="cards-grid">
+            @foreach (var desconto in cardapio.Descontos)
+            {
+                <div class="card-produto">
+                    <div class="card-icone">💰</div>
+                    <div class="card-info">
+                        <span class="card-nome">@desconto.Descricao</span>
+                        <span class="card-preco">@desconto.Percentual% de desconto</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
     <div class="cardapio-rodape">
         <a href="/criar-pedido" class="btn-pedido">➕ Fazer Pedido</a>
     </div>
 }
 
 @code {
-    private List<ItemCardapioModel> itens = new();
+    private CardapioModel cardapio = new();
     private bool carregando = true;
     private string? erro;
 
@@ -90,7 +103,7 @@ else
     {
         try
         {
-            itens = await CardapioService.ObterCardapioAsync();
+            cardapio = await CardapioService.ObterCardapioAsync();
         }
         catch (Exception ex)
         {

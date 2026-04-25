@@ -1,9 +1,8 @@
-﻿using GoodHamburguer.Web.Models;
+﻿namespace GoodHamburguer.Web.Services;
 
-namespace GoodHamburguer.Web.Services
+using GoodHamburguer.Web.Models;
+
+public interface ICardapioService
 {
-    public interface ICardapioService
-    {
-        Task<List<ItemCardapioModel>> ObterCardapioAsync();
-    }
+    Task<CardapioModel> ObterCardapioAsync();
 }
