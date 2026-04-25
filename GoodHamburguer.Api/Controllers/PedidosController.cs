@@ -1,9 +1,9 @@
-﻿using GoodHamburguer.API.DTOs;
+﻿using GoodHamburguer.Api.DTOs;
 using GoodHamburguer.Application.Services;
 using GoodHamburguer.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodHamburguer.API.Controllers;
+namespace GoodHamburguer.Api.Controllers;
 
 [ApiController]
 [Route("api/pedidos")]

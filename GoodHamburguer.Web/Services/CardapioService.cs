@@ -14,7 +14,7 @@ namespace GoodHamburguer.Web.Services
 
         public async Task<List<ItemCardapioModel>> ObterCardapioAsync()
         {
-            return await _http.GetFromJsonAsync<List<ItemCardapioModel>>("api/menu")
+            return await _http.GetFromJsonAsync<List<ItemCardapioModel>>("api/cardapio")
                    ?? new List<ItemCardapioModel>();
         }
     }

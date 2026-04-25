@@ -1,11 +1,10 @@
-﻿// src/GoodHamburguer.API/Program.cs
+﻿using GoodHamburguer.Api.Middlewares;
 using GoodHamburguer.Application.Services;
 using GoodHamburguer.Domain.Interfaces;
 using GoodHamburguer.Infrastructure.Data;
 using GoodHamburguer.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,24 +16,27 @@ builder.Services.AddDbContext<AppDbContext>(opcoes =>
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<PedidoService>();
 
-// ── API ───────────────────────────────────────────────────────────────────────
-// ── Configuração para serializar enums como strings ─────────────────────────
+// ── Serialização de enums como string ────────────────────────────────────────
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ── CORS ───────────────────-───────────────────────────────────────────────────
+// ── CORS ──────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
-        policy.WithOrigins("http://localhost:5279", "https://localhost:7134")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod()));
 
 var app = builder.Build();
+
+// ── Middleware ────────────────────────────────────────────────────────────────
+app.UseMiddleware<TratadorDeExcecaoMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -43,6 +45,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

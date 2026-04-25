@@ -1,6 +1,6 @@
 ﻿using GoodHamburguer.Domain.Enums;
 
-namespace GoodHamburguer.API.DTOs;
+namespace GoodHamburguer.Api.DTOs;
 
 public record PedidoResponse(
     Guid Id,

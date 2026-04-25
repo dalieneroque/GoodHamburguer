@@ -2,7 +2,7 @@
 using GoodHamburguer.Domain.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodHamburguer.API.Controllers;
+namespace GoodHamburguer.Api.Controllers;
 
 [ApiController]
 [Route("api/cardapio")]

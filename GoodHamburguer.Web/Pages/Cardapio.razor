@@ -3,46 +3,102 @@
 @using GoodHamburguer.Web.Services
 @inject ICardapioService CardapioService
 
-<h3>🍔 Cardápio</h3>
+<PageTitle>Cardápio — GoodHamburguer</PageTitle>
+
+<div class="cardapio-header">
+    <h2>🍔 Nosso Cardápio</h2>
+    <p>Escolha seus itens favoritos e monte seu pedido!</p>
+</div>
 
 @if (carregando)
 {
-    <p>Carregando...</p>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Carregando cardápio...</p>
+    </div>
 }
-else if (itens.Any())
+else if (erro is not null)
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Categoria</th>
-                <th>Preço</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in itens)
-            {
-                <tr>
-                    <td>@item.Nome</td>
-                    <td>@item.Categoria</td>
-                    <td>R$ @item.Preco.ToString("F2")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="alerta-erro">
+        <span>⚠️</span> @erro
+    </div>
 }
 else
 {
-    <p>Nenhum item encontrado.</p>
+    <!-- Sanduíches -->
+    <div class="categoria-secao">
+        <h4 class="categoria-titulo">🥪 Sanduíches</h4>
+        <div class="cards-grid">
+            @foreach (var item in itens.Where(i => i.Categoria == "Sandwich"))
+            {
+                <div class="card-produto">
+                    <div class="card-icone">🍔</div>
+                    <div class="card-info">
+                        <span class="card-nome">@item.Nome</span>
+                        <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Acompanhamentos -->
+    <div class="categoria-secao">
+        <h4 class="categoria-titulo">🍟 Acompanhamentos</h4>
+        <div class="cards-grid">
+            @foreach (var item in itens.Where(i => i.Categoria == "Side"))
+            {
+                <div class="card-produto">
+                    <div class="card-icone">🍟</div>
+                    <div class="card-info">
+                        <span class="card-nome">@item.Nome</span>
+                        <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Bebidas -->
+    <div class="categoria-secao">
+        <h4 class="categoria-titulo">🥤 Bebidas</h4>
+        <div class="cards-grid">
+            @foreach (var item in itens.Where(i => i.Categoria == "Drink"))
+            {
+                <div class="card-produto">
+                    <div class="card-icone">🥤</div>
+                    <div class="card-info">
+                        <span class="card-nome">@item.Nome</span>
+                        <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="cardapio-rodape">
+        <a href="/criar-pedido" class="btn-pedido">➕ Fazer Pedido</a>
+    </div>
 }
 
 @code {
     private List<ItemCardapioModel> itens = new();
     private bool carregando = true;
+    private string? erro;
 
     protected override async Task OnInitializedAsync()
     {
-        itens = await CardapioService.ObterCardapioAsync();
-        carregando = false;
+        try
+        {
+            itens = await CardapioService.ObterCardapioAsync();
+        }
+        catch (Exception ex)
+        {
+            erro = $"Não foi possível carregar o cardápio. Verifique se a API está rodando. ({ex.Message})";
+        }
+        finally
+        {
+            carregando = false;
+        }
     }
 }
