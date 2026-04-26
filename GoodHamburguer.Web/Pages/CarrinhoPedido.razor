@@ -1,0 +1,205 @@
+﻿@page "/carrinho"
+@using GoodHamburguer.Web.Models
+@using GoodHamburguer.Web.Services
+@inject NavigationManager Navigation
+@inject CarrinhoService Carrinho
+@inject IPedidoService PedidoService
+@inject IJSRuntime JSRuntime
+
+<div class="cardapio-header">
+    <h2>🛒 Seu Carrinho</h2>
+    <p>Revise seu pedido antes de finalizar</p>
+</div>
+
+@if (!string.IsNullOrEmpty(erro))
+{
+    <div class="alert alert-danger">@erro</div>
+}
+
+@if (resposta is not null)
+{
+    <div class="alert alert-success">
+        <h5>Pedido realizado com sucesso!</h5>
+        <p><strong>Subtotal:</strong> R$ @resposta.Subtotal.ToString("F2")</p>
+        <p><strong>Desconto:</strong> R$ @resposta.Desconto.ToString("F2")</p>
+        <p><strong>Total:</strong> R$ @resposta.Total.ToString("F2")</p>
+    </div>
+}
+
+@if (resumo is not null)
+{
+    <div class="resumo">
+        <p><strong>SubTotal:</strong> R$ @resumo.Subtotal.ToString("F2")</p>
+        <p><strong>Desconto:</strong> R$ @resumo.Desconto.ToString("F2")</p>
+        <p><strong>Total:</strong> R$ @resumo.Total.ToString("F2")</p>
+
+        <button class="btn-pedido" @onclick="IrParaCardapio">
+            🔙 Voltar ao Cardápio
+        </button>
+    </div>
+}
+
+@if (Carrinho.Pedido.Sanduiche is null &&
+     Carrinho.Pedido.Acompanhamento is null &&
+     Carrinho.Pedido.Bebida is null)
+{
+    <p class="vazio">Seu carrinho está vazio 🛒</p>
+}
+
+
+<div class="carrinho-container">
+
+    <div class="carrinho-card">
+        <h4>🧾 Seu Pedido</h4>
+
+        <div class="item">
+            <span>🍔 Sanduíche</span>
+            <strong>@(Carrinho.Pedido.Sanduiche ?? "Não selecionado")</strong>
+        </div>
+
+        <div class="item">
+            <span>🍟 Acompanhamento</span>
+            <strong>@(Carrinho.Pedido.Acompanhamento ?? "Não selecionado")</strong>
+        </div>
+
+        <div class="item">
+            <span>🥤 Bebida</span>
+            <strong>@(Carrinho.Pedido.Bebida ?? "Não selecionado")</strong>
+        </div>
+    </div>
+
+    <div class="acoes">
+        <button class="btn-limpar" @onclick="LimparCarrinho">
+            🗑️ Limpar Carrinho
+        </button>
+
+        @if (Carrinho.PedidoId != null)
+        {
+            <button class="btn-remover" @onclick="RemoverPedido">
+                ❌ Cancelar Pedido
+            </button>
+        }
+
+        <button class="btn-atualizar" @onclick="AtualizarPedido">
+            🔄 Atualizar Pedido
+        </button>
+
+        <button class="btn-finalizar" @onclick="FinalizarPedido">
+            ✅ Finalizar Pedido
+        </button>
+    </div>
+
+</div>
+
+<Rodape />
+
+@code {
+    private PedidoRespostaModel? resposta;
+    private PedidoRespostaModel? resumo;
+    private string? erro;
+
+    async Task FinalizarPedido()
+    {
+        erro = null;
+
+        if (Carrinho.Pedido.Sanduiche == null)
+        {
+            erro = "Selecione um sanduíche para finalizar o pedido. 🍔";
+            return;
+        }
+
+        try
+        {
+            if (Carrinho.PedidoId == null)
+            {
+                resposta = await PedidoService.CriarPedidoAsync(Carrinho.Pedido);
+                Carrinho.PedidoId = resposta?.Id;
+            }
+            else
+            {
+                await PedidoService.AtualizarPedidoAsync(Carrinho.PedidoId.Value, Carrinho.Pedido);
+                resposta = await PedidoService.ObterPorIdAsync(Carrinho.PedidoId.Value);
+            }
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message.Replace("{\"mensagem\":\"", "")
+                             .Replace("\"}", "");
+        }
+    }
+
+    void LimparCarrinho()
+    {
+        Carrinho.Limpar(); 
+
+        resumo = null;
+        resposta = null;
+    }
+
+    async Task RemoverPedido()
+    {
+        erro = null;
+
+        if (Carrinho.PedidoId == null)
+        {
+            erro = "Não existe pedido para cancelar.";
+            return;
+        }
+
+        var confirmar = await JSRuntime.InvokeAsync<bool>(
+            "confirm",
+            "Deseja realmente cancelar o pedido? ❌"
+        );
+
+        if (!confirmar)
+        {
+            return;
+        }
+
+        try
+        {
+            if (Carrinho.PedidoId != null)
+            {
+                await PedidoService.DeletarPedidoAsync(Carrinho.PedidoId.Value);
+
+                Carrinho.Limpar();
+                resumo = null;
+                resposta = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message;
+        }
+    }
+
+    async Task AtualizarPedido()
+    {
+        erro = null;
+
+        try
+        {
+            if (Carrinho.PedidoId != null)
+            {
+                await PedidoService.AtualizarPedidoAsync(Carrinho.PedidoId.Value, Carrinho.Pedido);
+
+                resumo = await PedidoService.ObterPorIdAsync(Carrinho.PedidoId.Value);
+            }
+            else
+            {
+                resumo = await PedidoService.CriarPedidoAsync(Carrinho.Pedido);
+
+                Carrinho.PedidoId = resumo?.Id;
+            }
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message;
+        }
+    }
+
+    void IrParaCardapio()
+    {
+        Navigation.NavigateTo("/cardapio");
+    }
+}

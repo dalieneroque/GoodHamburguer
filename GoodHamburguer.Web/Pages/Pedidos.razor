@@ -1,0 +1,31 @@
+﻿@page "/pedidos"
+@inject IPedidoService PedidoService
+
+<div class="cardapio-header">
+    <h2>📋 Pedidos Realizados</h2>
+    <p>Historico de compras</p>
+</div>
+
+@if (listaPedidos == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    @foreach (var p in listaPedidos)
+    {
+        <div class="pedido-card">
+            <p><b>ID:</b> @p.Id</p>
+            <p>Total: R$ @p.Total</p>
+        </div>
+    }
+}
+
+@code {
+    private List<PedidoRespostaModel>? listaPedidos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaPedidos = await PedidoService.ObterTodosAsync();
+    }
+}

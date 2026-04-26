@@ -1,7 +1,10 @@
 ﻿@page "/cardapio"
 @using GoodHamburguer.Web.Models
 @using GoodHamburguer.Web.Services
+@using GoodHamburguer.Domain.Enums
+@inject CarrinhoService Carrinho
 @inject ICardapioService CardapioService
+
 
 <PageTitle>Cardápio — GoodHamburguer</PageTitle>
 
@@ -30,12 +33,22 @@ else
         <div class="cards-grid">
             @foreach (var item in cardapio.Sanduiches)
             {
-                <div class="card-produto">
-                    <div class="card-icone">🍔</div>
-                    <div class="card-info">
-                        <span class="card-nome">@item.Nome</span>
-                        <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                <div class="card-produto @(Carrinho.Pedido.Sanduiche?.ToString() == item.Nome ? "ativo" : "")">
+                    <img src="@GetImagem(item.Nome)" class="card-img" />
+
+                    <div class="card-body">
+                        <h5 class="card-nome">@item.Nome</h5>
+                        <p class="card-desc">Feito na chapa 🔥</p>
+
+                        <div class="card-footer">
+                            <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                            <button class="btn-add"
+                                    @onclick="() => SelecionarSanduiche(item.Nome)">
+                                @(Carrinho.Pedido.Sanduiche?.ToString() == item.Nome ? "✔ Adicionado" : "+ Adicionar")
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             }
         </div>
@@ -46,12 +59,22 @@ else
         <div class="cards-grid">
             @foreach (var item in cardapio.Acompanhamentos)
             {
-                <div class="card-produto">
-                    <div class="card-icone">🍟</div>
-                    <div class="card-info">
-                        <span class="card-nome">@item.Nome</span>
-                        <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                <div class="card-produto @(Carrinho.Pedido.Acompanhamento?.ToString() == item.Nome ? "ativo" : "")">
+                    <img src="@GetImagem(item.Nome)" class="card-img" />
+
+                    <div class="card-body">
+                        <h5 class="card-nome">@item.Nome</h5>
+                        <p class="card-desc">Crocante e deliciosa 🍟</p>
+
+                        <div class="card-footer">
+                            <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                            <button class="btn-add"
+                                    @onclick="() => SelecionarAcompanhamento(item.Nome)">
+                                @(Carrinho.Pedido.Acompanhamento?.ToString() == item.Nome ? "✔ Adicionado" : "+ Adicionar")
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             }
         </div>
@@ -62,12 +85,22 @@ else
         <div class="cards-grid">
             @foreach (var item in cardapio.Bebidas)
             {
-                <div class="card-produto">
-                    <div class="card-icone">🥤</div>
-                    <div class="card-info">
-                        <span class="card-nome">@item.Nome</span>
-                        <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                <div class="card-produto @(Carrinho.Pedido.Bebida?.ToString() == item.Nome ? "ativo" : "")">
+                    <img src="@GetImagem(item.Nome)" class="card-img" />
+
+                    <div class="card-body">
+                        <h5 class="card-nome">@item.Nome</h5>
+                        <p class="card-desc">Bem gelada 🧊</p>
+
+                        <div class="card-footer">
+                            <span class="card-preco">R$ @item.Preco.ToString("F2")</span>
+                            <button class="btn-add"
+                                    @onclick="() => SelecionarBebida(item.Nome)">
+                                @(Carrinho.Pedido.Bebida?.ToString() == item.Nome ? "✔ Adicionado" : "+ Adicionar")
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             }
         </div>
@@ -78,19 +111,19 @@ else
         <div class="cards-grid">
             @foreach (var desconto in cardapio.Descontos)
             {
-                <div class="card-produto">
-                    <div class="card-icone">💰</div>
-                    <div class="card-info">
-                        <span class="card-nome">@desconto.Descricao</span>
-                        <span class="card-preco">@desconto.Percentual% de desconto</span>
-                    </div>
+                <div class="card-desconto">
+                    <span class="badge">🔥 Promoção</span>
+                    <h5>@desconto.Descricao</h5>
+                    <p>@desconto.Percentual% OFF</p>
                 </div>
             }
         </div>
     </div>
 
     <div class="cardapio-rodape">
-        <a href="/criar-pedido" class="btn-pedido">➕ Fazer Pedido</a>
+        <a href="/carrinho" class="btn-pedido">
+            🛒 Ver Carrinho
+        </a>
     </div>
 }
 
@@ -112,6 +145,49 @@ else
         finally
         {
             carregando = false;
+        }
+    }
+
+    string GetImagem(string? nome)
+    {
+        return nome switch
+        {
+            "XBurger" => "images/xburguer.png",
+            "XEgg" => "images/xegg.png",
+            "XBacon" => "images/xbacon.png",
+            "BatataFrita" => "images/batata.png",
+            "Refrigerante" => "images/refri.png",
+            _ => "images/padrao.png"
+        };
+    }
+
+    void SelecionarSanduiche(string nome)
+    {
+        nome = nome.Replace(" ", "");
+
+        if (Enum.TryParse<Sanduiche>(nome, true, out var sanduiche))
+        {
+            Carrinho.Pedido.Sanduiche = sanduiche.ToString();
+        }
+    }
+
+    void SelecionarAcompanhamento(string nome)
+    {
+        nome = nome.Replace(" ", "");
+
+        if (Enum.TryParse<Acompanhamento>(nome, true, out var acompanhamento))
+        {
+            Carrinho.Pedido.Acompanhamento = acompanhamento.ToString();
+        }
+    }
+
+    void SelecionarBebida(string nome)
+    {
+        nome = nome.Replace(" ", "");
+
+        if (Enum.TryParse<Bebida>(nome, true, out var bebida))
+        {
+            Carrinho.Pedido.Bebida = bebida.ToString();
         }
     }
 }

@@ -1,17 +1,44 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<div class="main-layout">
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">Sobre</a>
-        </div>
+    <!-- NAVBAR -->
+    <header class="navbar-custom">
+        <div class="logo">🍔 GoodHamburguer</div>
 
-        <article class="content px-4">
-            @Body
-        </article>
+        <nav class="menu">
+            <NavLink href="" Match="NavLinkMatch.All">Início</NavLink>
+            <NavLink href="cardapio">Cardápio</NavLink>
+            <NavLink href="carrinho">Carrinho</NavLink>
+            <NavLink href="pedidos">Pedidos</NavLink>
+
+        </nav>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
+        @Body
     </main>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <span>🍔</span> GoodHamburger
+            </div>
+
+            <div class="footer-text">
+                Os melhores hambúrgueres artesanais da cidade!
+            </div>
+
+            <div class="footer-contact">
+                <p>📞 (31) 99999-9999</p>
+                <p>📍 Rua dos Sabores, 123 - SP</p>
+            </div>
+
+            <div class="footer-copyright">
+                <p>© 2026 GoodHamburger - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
 </div>

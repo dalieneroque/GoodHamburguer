@@ -16,5 +16,6 @@ builder.Services.AddScoped(sp => new HttpClient
 // ── Injeção de dependência ───────────────────────────────────────────────────
 builder.Services.AddScoped<ICardapioService, CardapioService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<CarrinhoService>();
 
 await builder.Build().RunAsync();
