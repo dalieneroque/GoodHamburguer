@@ -2,7 +2,7 @@
   
   <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" alt="C#" />
   <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET" />
-  <img src="https://img.shields.io/badge/SQL_Server-CC2927?style=flat-square&logo=microsoft-sql-server&logoColor=white" alt="SQL Server" />
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
   <img src="https://img.shields.io/badge/Entity_Framework-7A4BFC?style=flat-square&logo=dotnet&logoColor=white" alt="EF Core" />
   <img src="https://img.shields.io/badge/Blazor-512BD4?style=flat-square&logo=blazor&logoColor=white" alt="Blazor" />
   <img src="https://img.shields.io/badge/Clean_Architecture-6DB33F?style=flat-square&logo=clean-architecture&logoColor=white" alt="Clean Architecture" />
@@ -32,36 +32,31 @@
 
 ## 🛠️ Tecnologias Utilizadas
 
-| Tecnologia            | Versão | Finalidade                     |
-| --------------------- | ------ | ------------------------------ |
-| .NET                  | 8.0    | Framework principal            |
-| ASP.NET Core          | 8.0    | Construção da API REST         |
-| Entity Framework Core | 8.0    | ORM e acesso a dados           |
-| SQL Server            | 2022+  | Banco de dados relacional      |
-| Swagger / OpenAPI     | Latest | Documentação interativa da API |
-| C#                    | 12.0   | Linguagem de programação       |
+| Tecnologia            | Finalidade                     |
+| --------------------- |------------------------------- |
+| .NET                  | Framework principal            |
+| ASP.NET Core          | Construção da API REST         |
+| Entity Framework Core | ORM e acesso a dados           |
+| PostgreSQL            | Banco de dados relacional      |
+| Swagger / OpenAPI     | Documentação interativa da API |
+| C#                    | Linguagem de programação       |
+| Blazor WebAssembly    | Frontend                       |
 
 ---
 
 ## ✨ Funcionalidades
 
 ✅ **CRUD Completo de Pedidos**
-  - Criar, listar, consultar por ID, atualizar e remover pedidos
 
 ✅ **Cálculo Automático de Descontos**
-  - Regras de negócio aplicadas automaticamente conforme composição do pedido
 
 ✅ **Cardápio Dinâmico**
-  - Endpoint dedicado para consulta de itens disponíveis e preços
 
-✅ **Validações Robustas**
-  - Tratamento claro de erros com mensagens descritivas
+✅ **Validações e regras de negócio**
 
-✅ **Documentação Interativa**
-  - Swagger/OpenAPI configurado para exploração da API
+✅ **Documentação interativa com Swagger**
 
-✅ **Persistência em SQL Server**
-  - Entity Framework Core com migrations automáticas
+✅ **Persistência com PostgreSQL + EF Core**
 
 ---
 
@@ -69,10 +64,10 @@
 
 O projeto segue os princípios da **Clean Architecture** (Arquitetura Limpa), promovendo:
 
-- 🔹 **Separação de Responsabilidades**: Cada camada tem um propósito bem definido
-- 🔹 **Independência de Frameworks**: Domínio isolado de detalhes de infraestrutura
-- 🔹 **Testabilidade**: Regras de negócio facilmente testáveis
-- 🔹 **Manutenibilidade**: Código organizado e de fácil evolução
+- **Separação de Responsabilidades**
+- **Independência de Frameworks**
+- **Alta Testabilidade**
+- **Facilidade de manutenção e evolução**
 
 ---
 
@@ -117,11 +112,59 @@ O projeto segue os princípios da **Clean Architecture** (Arquitetura Limpa), pr
 
 ---
 
+## Frontend em Blazor
+
+<img width="1142" height="561" alt="Design sem nome" src="https://github.com/user-attachments/assets/c726ffe7-1292-499c-8fdf-04b39d496656" />
+
+
+---
+
+## 🚀 Como Executar o Projeto
+
+Siga os passos abaixo para rodar a API `GoodHamburguer` em seu ambiente local.
+
+### Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [PostgreSQL](https://www.postgresql.org/download/) (versão 13 ou superior)
+- [Git](https://git-scm.com/) (para clonar o repositório)
+- Um editor de código (recomendado: [Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/vs/) ou [VS Code](https://code.visualstudio.com/))
+
+### Clonar o Repositório
+
+`git clone https://github.com/dalieneroque/GoodHamburguer.git`
+
+`cd GoodHamburguer`
+
+### Configurar a String de Conexão (PostgreSQL)
+
+Abra o arquivo `appsettings.json` localizado na pasta `GoodHamburguer.Api`
+
+Localize a seção `"ConnectionStrings"` e ajuste a string de conexão para o seu PostgreSQL:
+
+`"ConnectionStrings": { "DefaultConnection": "Host=localhost;Database=GoodHamburguerDB;Username=SEU_USUARIO;Password=SUA_SENHA" }`
+
+### Executar a API
+
+A partir da pasta raiz do projeto, execute:
+
+`cd GoodHamburguer.Api`
+
+`dotnet run`
+
+Após a execução, você verá algo como:
+
+`Now listening on: http://localhost:5xxx`
+
+`Now listening on: https://localhost:7xxx`
+
+---
+
 ## 🚧 Próximos Passos (Em Desenvolvimento)
 
 > **Status do Projeto**: 🟢 **MVP Concluído** | 🟡 **Evolução em Andamento**
-
-O projeto segue em constante evolução! Confira o que está por vir:
 
 ### 📋 Roadmap de Desenvolvimento
 
@@ -131,9 +174,15 @@ O projeto segue em constante evolução! Confira o que está por vir:
 | **Sprint 1** | ✅ CRUD de Pedidos | Concluído | - |
 | **Sprint 1** | ✅ Regras de Desconto | Concluído | - |
 | **Sprint 1** | ✅ Endpoint Cardápio | Concluído | - |
-| **Sprint 2** | 🚧 Frontend Blazor | Em Progresso | Q2 2026 |
-| **Sprint 3** | 🧪 Testes Unitários | Em Progresso | Q2 2026 |
+| **Sprint 2** | ✅ Frontend Blazor | Concluído | - |
+| **Sprint 3** | 🧪 Testes Unitários | Em Progresso | - |
 
+
+---
+
+## 📄 Licença
+
+© 2026 GoodHamburguer — Projeto para fins educacionais e avaliação técnica.
 
 ---
 
@@ -153,30 +202,11 @@ O projeto segue em constante evolução! Confira o que está por vir:
     demonstrando habilidades em:
   </p>
   
-  <p>
-    <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" alt="C#" />
-    <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET" />
-    <img src="https://img.shields.io/badge/SQL_Server-CC2927?style=flat-square&logo=microsoft-sql-server&logoColor=white" alt="SQL Server" />
-    <img src="https://img.shields.io/badge/Entity_Framework-7A4BFC?style=flat-square&logo=dotnet&logoColor=white" alt="EF Core" />
-    <img src="https://img.shields.io/badge/Blazor-512BD4?style=flat-square&logo=blazor&logoColor=white" alt="Blazor" />
-    <img src="https://img.shields.io/badge/Clean_Architecture-6DB33F?style=flat-square&logo=clean-architecture&logoColor=white" alt="Clean Architecture" />
-  </p>
-
-  <br />
-  
-
-  <br />
 
   <hr style="width: 60%; border: 1px solid #e0e0e0;" />
   
   
-  <p>
-    <sub>
-      © 2026 GoodHamburguer — Todos os direitos reservados<br />
-      Desenvolvido com excelência para o Desafio Técnico .NET
-    </sub>
-  </p>
-</div>
+  
 
 
 
