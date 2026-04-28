@@ -198,8 +198,7 @@ Após a execução, você verá algo como:
   
   
   <p>
-    Este projeto foi desenvolvido como parte de um desafio técnico,<br />
-    demonstrando habilidades em:
+    Este projeto foi desenvolvido como parte de um desafio técnico.
   </p>
   
 
